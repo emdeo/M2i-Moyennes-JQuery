@@ -1,92 +1,68 @@
 
-var lstNotes = [] // liste des notes
+// Arrondir une valeur au centième près
+function arrondi(n) {
+    return Math.round(n*100)/100
+}
 
-// Contient tous les blocs d'instructions JQuery. Ils se lançent dès que la page est chargée = $(document).ready()
+// Contient tous les blocs d'instructions JQuery
+// Ceux-ci se lançent dès que la page est chargée = $(document).ready()
 $(document).ready(
     function () {
 
         //// SOLUTION DU PROF
-        // $("#txtNbNotes").on("keypress", function (e) {
-        //     var keycode = e.keycode || e.which
-        //     if (keycode > 0) {
-        //         let nb = parseInt($("#txtNbNotes").val())
+        $("#txtNbNotes").on("keypress", function (e) {
 
-        //         if (nb < 3 || nb > 8) return
+            var keycode = e.keycode || e.which
 
-        //         $("#txtMoyenne").val("")
-        //         $("#serieNotes").empty()
-        //         for (i = 0; i < nb; i++) {
-        //             $("#serieNotes").append($("<input></input>").attr("type", "number"))
-        //         }
-        //     }
-        // })
+            if (keycode == 13) {
 
-        //// SOLUTION DU PROF
-        // $("#serieNotes > input").on("change", function () {
-        //     let somme = 0
-        //     let Nb = 0
-        //     {
-        //         $("#serieNotes > input").each(
-        //             function (index) {
-        //                 somme += parseFlaot($(this).val())
-        //                 Nb++
-        //             })
-        //         if (Nb > 0) {
-        //             $("#txtMoyenne").val(somme / Nb)
-        //         }
-        //     }
-        // })
+                let nb = parseInt($("#txtNbNotes").val())
 
-        // Ajouter autant d'éléments input que la valeur entrée par l'utilisateur
-        $("#txtNbNotes").change(
-            function () {
+                if (nb < 3 || nb > 8) return
 
-                // si mon élément div n'est pas vide, je supprime tous ses éléments enfants
+                $("#txtMoyenne").val("")
                 $("#serieNotes").empty()
 
-                // je vérifie que le nombre de notes est compris entre 3 et 8
-                if ($("#txtNbNotes").val() > 2 & $("#txtNbNotes").val() < 9) {
+                for (i = 0; i < nb; i++) {
+                    $("#serieNotes").append($("<div></div>").attr('id', 'divNote' + i))
+                    $("#divNote" + i).attr("class", "col-md-3")
 
-                    for (i = 0; i < $("#txtNbNotes").val(); i++) {
+                    // j'ajoute un élément input à mon div 2ndaire (pour entrer une note)
+                    $("#divNote" + i).append($("<input></input>").attr('id', 'inputNote' + i))
 
-                        // j'ajoute un élément div à mon div principal (pour la mise en forme)
-                        $("#serieNotes").append($("<div></div>").attr('id', 'divNote' + i))
-                        $("#divNote" + i).attr("class", "col-md-3")
+                    // je définis les attributs de mon élément input (porur le mettre en forme et pour l'identifier)
+                    $("#inputNote" + i).attr("type", "number")
+                    $("#inputNote" + i).attr("name", "note" + i)
+                    $("#inputNote" + i).attr("class", "form-control")
+                    $("#inputNote" + i).attr("placeholder", "(de 0 à 20)")
+                    $("#inputNote" + i).attr("min", "0")
+                    $("#inputNote" + i).attr("max", "20")
 
-                        // j'ajoute un élément input à mon div 2ndaire (pour entrer une note)
-                        $("#divNote" + i).append($("<input></input>").attr('id', 'inputNote' + i))
-
-                        // je définis les attributs de mon élément input (porur le mettre en forme et pour l'identifier)
-                        $("#inputNote" + i).attr("type", "number")
-                        $("#inputNote" + i).attr("name", 'note' + i)
-                        $("#inputNote" + i).attr("class", "form-control")
-                        $("#inputNote" + i).attr("placeholder", "(de 0 à 20)")
-                    }
                 }
-            }
-        )
 
-        // A chaque nouvel input (ou modification d'input), mettre à jour la moyenne
-        $("#serieNotes > input").change(
-            function () {
-                lstNotes.push($(this).val())
-                $("#txtMoyenne").val(Moyenne(lstNotes))
+                // Calculer la moyenne
+                $("#serieNotes").find("input").on("change", function () {
+                    let somme = 0
+                    let Nb = 0
+
+                    $("#serieNotes").find("input").each(
+                        function (index) {
+
+                            // Permet de calculer la moyenne en ignorant les inputs vides
+                            var note = parseFloat($(this).val())
+
+                            if (note > -1 & note < 21){
+                                somme += note
+                                Nb++
+                            }
+                        });
+
+                    if (Nb > 0) {
+                        $("#txtMoyenne").val(arrondi(somme / Nb))
+                    }
+
+                })
             }
-        )
+        })
     }
 )
-
-// Calculer la moyenne d'un tableau passé en paramètre
-function Moyenne(liste) {
-    if (liste.length == 0) {
-        return -1
-    }
-
-    var somme = 0
-
-    liste.forEach(function (element) {
-        somme += element
-    })
-
-    return somme / liste.length
-}
