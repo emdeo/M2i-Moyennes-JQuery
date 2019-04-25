@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calcul IMC</title>
+    <meta charset="UTF-8" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <h2>Entrez vos notes</h2>
+
+        <!-- Saut de ligne -->
+        </br>
+
+        <form action="/action_page.php" class="form-horizontal" method="post">
+
+            <!-- Nombre de notes -->
+            <div class="form-group row">
+
+                <label for="txtNbNotes" class="col-md-2">Combien de notes ?</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="txtNbNotes" name="txtNbNotes"
+                        placeholder="(entre 3 et 8)">
+                </div>
+
+            </div>
+
+            <!-- Section contenant les inputs (vide au départ) -->
+            <div id="serieNotes" class="form-group row">
+            </div>
+
+            <!-- Moyenne des notes -->
+            <div class="form-group row">
+                <label class="col-md-2">Votre moyenne</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="txtMoyenne" name="txtMoyenne" readonly>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="./sources.js"></script>
+
+</body>
+
+</html>
