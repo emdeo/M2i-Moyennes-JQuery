@@ -21,7 +21,7 @@ $(document).ready(
                 if (nb < 3 || nb > 8) return
 
                 $("#txtMoyenne").val("")
-                $("#serieNotes").empty()
+                $("#serieNotes").empty() // supprimer les éléments input avant d'en créer de nouveaux (évite de multiplier les inputs)
 
                 for (i = 0; i < nb; i++) {
                     $("#serieNotes").append($("<div></div>").attr('id', 'divNote' + i))
