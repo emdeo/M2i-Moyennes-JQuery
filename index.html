@@ -2,54 +2,60 @@
 <html>
 
 <head>
-    <title>Calcul IMC</title>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <title>Calcul moyenne</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- BS4 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- BS4 JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
 
-        <h2>Entrez vos notes</h2>
+    <form action="/action_page.php" method="get">
+        <div class="container">
 
-        <!-- Saut de ligne -->
-        </br>
+            <h2>Calculez la moyenne de vos notes</h2>
 
-        <form action="/action_page.php" class="form-horizontal" method="post">
+            <!-- Saut de ligne -->
+            <br>
 
-            <!-- Nombre de notes -->
+            <!-- Demander nombre de notes à l'utilisateur -->
             <div class="form-group row">
-
                 <label for="txtNbNotes" class="col-md-2">Combien de notes ?</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" id="txtNbNotes" name="txtNbNotes"
-                        placeholder="(entre 3 et 8)">
+                    <input type="number" id="txtNbNotes" class="form-control" placeholder="(entre 3 et 8)" min="3"
+                        max="8" required>
                 </div>
-
             </div>
 
-            <!-- Section contenant les inputs (vide au départ) -->
-            <div id="serieNotes" class="form-group row">
+            <!-- Inputs de notes (vide au départ) -->
+            <div id="divNotes" class="form-group row">
             </div>
 
-            <!-- Moyenne des notes -->
+            <!-- Afficher la moyenne des notes -->
             <div class="form-group row">
-                <label class="col-md-2">Votre moyenne</label>
+                <label for="txtMoyenne" class="col-md-2">Moyenne des notes</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" id="txtMoyenne" name="txtMoyenne" readonly>
+                    <input type="text" id="txtMoyenne" class="form-control" readonly>
                 </div>
             </div>
 
-        </form>
-    </div>
+        </div>
 
+    </form>
     <script src="./sources.js"></script>
-
 </body>
 
 </html>

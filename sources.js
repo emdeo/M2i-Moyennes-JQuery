@@ -1,68 +1,60 @@
 
-// Arrondir une valeur au centième près
+// Renvoyer une valeur arrondie au centième
 function arrondi(n) {
-    return Math.round(n*100)/100
+    return Math.round(n * 100) / 100
 }
 
-// Contient tous les blocs d'instructions JQuery
-// Ceux-ci se lançent dès que la page est chargée = $(document).ready()
-$(document).ready(
-    function () {
+$(document).ready(function () {
 
-        //// SOLUTION DU PROF
-        $("#txtNbNotes").on("keypress", function (e) {
+    // Quand la valeur de txtNbNotes a changé (l'utilisateur a appuyé sur Entrée ou TAB)...
+    $("#txtNbNotes").on("change", function () {
 
-            var keycode = e.keycode || e.which
+        // Vider le div de notes au cas où il contiendrait déjà des éléments
+        $("#divNotes").empty()
 
-            if (keycode == 13) {
+        // Si le nombre de notes n'est pas dans [3 ; 8], la page ne fait rien d'autre
+        var nbNotes = $("#txtNbNotes").val
+        if (nbNotes < 3 || nbNotes > 8) return
 
-                let nb = parseInt($("#txtNbNotes").val())
+        // Ajouter autant de nouveaux inputs que l'utilisateur a demandé
+        for (i = 0; i < $("#txtNbNotes").val(); i++) {
 
-                if (nb < 3 || nb > 8) return
+            // NECESSAIRE POUR LA MISE EN FORME : créer un nouveau div qui contiendra un input (c-à-d la note)
+            $("#divNotes").append($("<div></div>").attr("id", "divNote" + i))
+            $("#divNote" + i).attr("class", "col-md-2")
 
-                $("#txtMoyenne").val("")
-                $("#serieNotes").empty() // supprimer les éléments input avant d'en créer de nouveaux (évite de multiplier les inputs)
+            // Créer un nouvel input dans lequel entrer une note
+            $("#divNote" + i).append($("<input></input>").attr("id", "txtNote" + i))
+            $("#txtNote" + i).attr("type", "number")
+            $("#txtNote" + i).attr("min", "0")
+            $("#txtNote" + i).attr("max", "20")
+            $("#txtNote" + i).attr("class", "form-control")
+            $("#txtNote" + i).attr("placeholder", "(de 0 à 20)")
+        }
 
-                for (i = 0; i < nb; i++) {
-                    $("#serieNotes").append($("<div></div>").attr('id', 'divNote' + i))
-                    $("#divNote" + i).attr("class", "col-md-3")
+        // Calculer la moyenne
+        // On commence par récupérer (.find) tous les input de l'élément #divNotes
+        $("#divNotes").find("input").on("change", function () {
+            var somme = 0
+            var Nb = 0
 
-                    // j'ajoute un élément input à mon div 2ndaire (pour entrer une note)
-                    $("#divNote" + i).append($("<input></input>").attr('id', 'inputNote' + i))
+            // Pour chaque input de #divNotes, on exécute les instructions suivantes :
+            $("#divNotes").find("input").each(function (index) {
 
-                    // je définis les attributs de mon élément input (porur le mettre en forme et pour l'identifier)
-                    $("#inputNote" + i).attr("type", "number")
-                    $("#inputNote" + i).attr("name", "note" + i)
-                    $("#inputNote" + i).attr("class", "form-control")
-                    $("#inputNote" + i).attr("placeholder", "(de 0 à 20)")
-                    $("#inputNote" + i).attr("min", "0")
-                    $("#inputNote" + i).attr("max", "20")
+                // Sans parseFloat(), le calcul de moyenne est impossible (typage erroné ?)
+                var note = parseFloat($(this).val())
 
+                // On vérifie que la note est dans [0 ; 20], sinon on ne la compte pas
+                // (évite de calculer la moyenne en incluant les inputs vides)
+                if (note > -1 & note < 21) {
+                    somme += note
+                    Nb += 1
                 }
+            })
 
-                // Calculer la moyenne
-                $("#serieNotes").find("input").on("change", function () {
-                    let somme = 0
-                    let Nb = 0
-
-                    $("#serieNotes").find("input").each(
-                        function (index) {
-
-                            // Permet de calculer la moyenne en ignorant les inputs vides
-                            var note = parseFloat($(this).val())
-
-                            if (note > -1 & note < 21){
-                                somme += note
-                                Nb++
-                            }
-                        });
-
-                    if (Nb > 0) {
-                        $("#txtMoyenne").val(arrondi(somme / Nb))
-                    }
-
-                })
-            }
+            // Afficher la moyenne dans le dernier input de la page
+            $("#txtMoyenne").val(arrondi(somme / Nb))
         })
-    }
-)
+
+    })
+})
