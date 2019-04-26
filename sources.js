@@ -4,9 +4,10 @@ function arrondi(n) {
     return Math.round(n * 100) / 100
 }
 
+// Quand la page a fini de charger
 $(document).ready(function () {
 
-    // Quand la valeur de txtNbNotes a changé (l'utilisateur a appuyé sur Entrée ou TAB)...
+    // Quand la valeur de txtNbNotes a changé
     $("#txtNbNotes").on("change", function () {
 
         // Vider le div de notes au cas où il contiendrait déjà des éléments
